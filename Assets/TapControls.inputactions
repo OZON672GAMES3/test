@@ -1,0 +1,52 @@
+{
+    "version": 1,
+    "name": "TapControls",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "df1a9065-3f91-42cc-837a-a86f57f02069",
+            "actions": [
+                {
+                    "name": "Tap",
+                    "type": "Button",
+                    "id": "c204dbee-e05e-4af2-965c-b62ba147fa11",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b982052b-88cb-4291-97be-d59fcad26b3d",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ace1dc6a-4259-40df-96f4-7bbcf1469bc4",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "TapScheme",
+            "bindingGroup": "TapScheme",
+            "devices": []
+        }
+    ]
+}
