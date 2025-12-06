@@ -1,4 +1,4 @@
-namespace TapDash.CodeBase.Infrastructure
+namespace TapDash.CodeBase.Infrastructure.States
 {
     public class GameLoopState : IState
     {

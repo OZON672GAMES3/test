@@ -3,10 +3,11 @@ using UnityEngine.InputSystem;
 
 namespace TapDash.CodeBase.Services.Input
 {
-    public class InputService : IInputService
+    public class InputService : IInputService, IDisposable
     {
         public event Action OnTap;
-        private TapControls _controls;
+        
+        private readonly TapControls _controls;
 
         public InputService()
         {

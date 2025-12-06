@@ -2,7 +2,7 @@ using TapDash.CodeBase.Data;
 
 namespace TapDash.CodeBase.Infrastructure.Services.SaveLoad
 {
-    internal interface ISaveLoadService
+    public interface ISaveLoadService : IService
     {
         void SaveProgress();
         PlayerProgress LoadProgress();
