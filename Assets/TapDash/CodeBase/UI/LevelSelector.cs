@@ -1,12 +1,9 @@
-using InputSystem;
-using Level;
 using TapDash.CodeBase.Level;
 using TapDash.CodeBase.Player;
-using TapDash.CodeBase.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace TapDash.CodeBase.UI
 {
     public class LevelSelector : MonoBehaviour
     {

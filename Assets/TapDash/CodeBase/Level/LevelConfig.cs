@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Level
+namespace TapDash.CodeBase.Level
 {
     [CreateAssetMenu(fileName = "LevelConfig", menuName = "Configs/LevelConfig")]
     public class LevelConfig : ScriptableObject

@@ -1,5 +1,5 @@
-using Animations;
 using DG.Tweening;
+using TapDash.CodeBase.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +37,7 @@ namespace TapDash.CodeBase.UI
 
         private void ShowPanel(CanvasGroup targetPanel)
         {
-            foreach (var group in _panels)
+            foreach (CanvasGroup group in _panels)
             {
                 if (group == targetPanel)
                     _animator.ShowPanel(group, (RectTransform)group.transform, 0.5f, Ease.OutBack);
@@ -48,7 +48,7 @@ namespace TapDash.CodeBase.UI
 
         public void CloseLevelsPanelOnStart()
         {
-            foreach (var group in _panels)
+            foreach (CanvasGroup group in _panels)
                 _animator.HidePanel(group, (RectTransform)group.transform, 0.5f, Ease.Linear);
         }
     }

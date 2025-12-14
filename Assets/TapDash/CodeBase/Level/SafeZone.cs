@@ -1,8 +1,9 @@
 using System;
-using InputSystem;
+using TapDash.CodeBase.InputSystem;
+using TapDash.CodeBase.Player;
 using UnityEngine;
 
-namespace Level
+namespace TapDash.CodeBase.Level
 {
     public class SafeZone : MonoBehaviour
     {
@@ -10,7 +11,7 @@ namespace Level
         
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out PlayerBehaviour player))
+            if (other.TryGetComponent(out PlayerMove player))
             {
                 player.AlignTo(transform.position);
                 OnComplete?.Invoke();

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Level
+namespace TapDash.CodeBase.Level
 {
     public class Chunk : MonoBehaviour
     {

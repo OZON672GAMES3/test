@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 180
+  m_fontSizeBase: 180
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1800,7 +1800,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5892854902115097306}
   m_Layer: 5
-  m_Name: Panels
+  m_Name: Menu_Panels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3176,7 +3176,7 @@ GameObject:
   - component: {fileID: 8717646083945341136}
   - component: {fileID: 4651422603295897855}
   m_Layer: 5
-  m_Name: restert
+  m_Name: restart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3200,7 +3200,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.000025094, y: -103}
-  m_SizeDelta: {x: 161.7687, y: 155.5791}
+  m_SizeDelta: {x: 799.0717, y: 872.5454}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4288700785742605332
 CanvasRenderer:
@@ -4404,6 +4404,7 @@ GameObject:
   - component: {fileID: 161122417801620104}
   - component: {fileID: 8288159555034725659}
   - component: {fileID: 439181912784756094}
+  - component: {fileID: 7414108158896595279}
   m_Layer: 5
   m_Name: LosePanel
   m_TagString: Untagged
@@ -4428,8 +4429,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.067871094}
-  m_SizeDelta: {x: -1374.668, y: -154.65236}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8288159555034725659
 CanvasRenderer:
@@ -4469,6 +4470,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7414108158896595279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5724174409038820629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86346c63ad084c4c9ffae8d9aa91d737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _losePanel: {fileID: 439181912784756094}
+  _restartButton: {fileID: 4651422603295897855}
 --- !u!1 &6031871547140889316
 GameObject:
   m_ObjectHideFlags: 0

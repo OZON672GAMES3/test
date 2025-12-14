@@ -1,10 +1,6 @@
-using InputSystem;
-using Level;
 using TapDash.CodeBase.Level;
-using TapDash.CodeBase.Player;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace TapDash.CodeBase.UI
 {
@@ -12,19 +8,13 @@ namespace TapDash.CodeBase.UI
     {
         [SerializeField] private Image _losePanel;
         [SerializeField] private Button _restartButton;
-
-        private PlayerMove _player;
-        private SimpleChunkSpawner _chunkSpawner;
         
-        [Inject]
-        public void Construct(PlayerMove player, SimpleChunkSpawner chunkSpawner)
-        {
-            _player = player;
-            _chunkSpawner = chunkSpawner;
-        }
+        private SimpleChunkSpawner _chunkSpawner;
 
-        private void Start()
+        public void Construct(SimpleChunkSpawner chunkSpawner)
         {
+            _chunkSpawner = chunkSpawner;
+            
             _restartButton.onClick.AddListener(() =>
             {
                 _chunkSpawner.Restart();
@@ -32,7 +22,7 @@ namespace TapDash.CodeBase.UI
             });
         }
 
-        private void ShowLosePanel()
+        public void ShowLosePanel()
         {
             _losePanel.gameObject.SetActive(true);
         }

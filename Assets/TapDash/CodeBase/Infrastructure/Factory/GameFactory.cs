@@ -4,7 +4,6 @@ using TapDash.CodeBase.Infrastructure.Services.PersistentProgress;
 using TapDash.CodeBase.Level;
 using TapDash.CodeBase.Player;
 using TapDash.CodeBase.UI;
-using UI;
 using UnityEngine;
 
 namespace TapDash.CodeBase.Infrastructure.Factory
@@ -25,28 +24,30 @@ namespace TapDash.CodeBase.Infrastructure.Factory
             _assets = assets;
         }
 
-        public GameObject CreatePlayer(GameObject at)
+        public void ConstructGameplay()
         {
-            _playerGameObject = InstantiateRegistered(AssetPath.PlayerPath, at.transform.position);
+            _playerGameObject.GetComponent<PlayerMove>().Construct(
+                _hudGameObject.GetComponentInChildren<LoseScreen>());
             _playerGameObject.SetActive(false);
-            return _playerGameObject;
-        }
-
-        public void CreateHud()
-        {
-            _hudGameObject = InstantiateRegistered(AssetPath.HudPath);
+            
             _hudGameObject.GetComponentInChildren<LevelSelector>().Construct(
                 _spawnerGameObject.GetComponent<SimpleChunkSpawner>(),
-                _playerGameObject.GetComponent<PlayerMove>(),
+                _playerGameObject.GetComponent<PlayerMove>(), 
                 _hudGameObject.GetComponentInChildren<MenuSelector>());
+            _hudGameObject.GetComponentInChildren<LoseScreen>()
+                .Construct(_spawnerGameObject.GetComponent<SimpleChunkSpawner>());
+
+            _spawnerGameObject.GetComponent<SimpleChunkSpawner>().Construct(
+                _playerGameObject.GetComponent<PlayerMove>());
         }
 
-        public GameObject CreateChunkSpawner()
-        {
+        public GameObject CreatePLayer(GameObject at) =>
+            _playerGameObject = InstantiateRegistered(AssetPath.PlayerPath, at.transform.position);
+
+        public GameObject CreateHud() => _hudGameObject = InstantiateRegistered(AssetPath.HudPath);
+
+        public GameObject CreateChunkSpawner() =>
             _spawnerGameObject = InstantiateRegistered(AssetPath.ChunkSpawnerPath);
-            _spawnerGameObject.GetComponent<SimpleChunkSpawner>().Construct(_playerGameObject.GetComponent<PlayerMove>());
-            return _spawnerGameObject;
-        }
 
         public void Cleanup()
         {
@@ -60,7 +61,7 @@ namespace TapDash.CodeBase.Infrastructure.Factory
             RegisterProgressWatchers(gameObject);
             return gameObject;
         }
-        
+
         private GameObject InstantiateRegistered(string prefabPath)
         {
             GameObject gameObject = _assets.Instantiate(prefabPath);

@@ -1,13 +1,12 @@
 using TapDash.CodeBase.Player;
 using UnityEngine;
 
-namespace InputSystem
+namespace TapDash.CodeBase.InputSystem
 {
     public class TurnTrigger : MonoBehaviour
     {
         [SerializeField] private TurnDirection _turnDirection;
         public TurnDirection TurnDirection => _turnDirection;
-
         
         private PlayerMove _player;
         private Collider _collider;
@@ -54,11 +53,5 @@ namespace InputSystem
             if (other.TryGetComponent(out PlayerMove player))
                 player.ClearTurnZone();
         }
-    }
-
-    public enum TurnDirection
-    {
-        Left = -90,
-        Right = 90
     }
 }

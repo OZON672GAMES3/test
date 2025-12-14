@@ -59,11 +59,12 @@ namespace TapDash.CodeBase.Infrastructure.States
         
         private void InitGameWorld()
         {
-            GameObject player = _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPoint));
+            GameObject player = _gameFactory.CreatePLayer(GameObject.FindWithTag(InitialPoint));
             CameraFollow(player);
             GroundFollow(player);
             _gameFactory.CreateChunkSpawner();
             _gameFactory.CreateHud();
+            _gameFactory.ConstructGameplay();
         }
 
         private static void CameraFollow(GameObject target) => Camera.main.GetComponent<CameraFollow>().Follow(target);

@@ -1,8 +1,9 @@
-using InputSystem;
 using TapDash.CodeBase.Data;
 using TapDash.CodeBase.Infrastructure.Services;
 using TapDash.CodeBase.Infrastructure.Services.PersistentProgress;
+using TapDash.CodeBase.InputSystem;
 using TapDash.CodeBase.Services.Input;
+using TapDash.CodeBase.UI;
 using UnityEngine;
 
 namespace TapDash.CodeBase.Player
@@ -17,6 +18,13 @@ namespace TapDash.CodeBase.Player
         private Vector3 _direction = Vector3.forward;
         private Vector3? _alignTarget;
         private int _lastCompletedLevel;
+        private bool _isDead;
+        private LoseScreen _loseScreenView;
+
+        public void Construct(LoseScreen loseScreenView)
+        {
+            _loseScreenView = loseScreenView;
+        }
         
         private void Awake()
         {
@@ -47,11 +55,11 @@ namespace TapDash.CodeBase.Player
 
         private void FixedUpdate()
         {
-            // if (!_isDead)
-            Rigidbody.MovePosition(transform.position + _direction * MoveSpeed * Time.fixedDeltaTime);
+            if (!_isDead)
+                Rigidbody.MovePosition(transform.position + _direction * MoveSpeed * Time.fixedDeltaTime);
 
-            // if (transform.position.y <= -0.2)
-            // Die();
+            if (transform.position.y <= -0.2)
+                Die();
         }
 
         public void SetTurnZone(TurnTrigger zone) => _currentTurnZone = zone;
@@ -63,6 +71,11 @@ namespace TapDash.CodeBase.Player
             _direction = Quaternion.Euler(0, (float)turnDirection, 0) * _direction;
         }
 
+        public void AlignTo(Vector3 target)
+        {
+            
+        }
+
         public void UpdateProgress(PlayerProgress progress)
         {
             progress.LevelData = _lastCompletedLevel;
@@ -71,6 +84,12 @@ namespace TapDash.CodeBase.Player
         public void LoadProgress(PlayerProgress progress)
         {
             _lastCompletedLevel = progress.LevelData;
+        }
+
+        private void Die()
+        {
+            _isDead = true;
+            _loseScreenView.ShowLosePanel();
         }
 
         private void OnTap()

@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace Animations
+namespace TapDash.CodeBase.Animations
 {
     public class UITransitionAnimator
     {

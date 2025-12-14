@@ -9,9 +9,11 @@ namespace TapDash.CodeBase.Infrastructure.Factory
     {
         List<ISavedProgressReader> ProgressReaders { get; }
         List<ISavedProgress> ProgressWriters { get; }
-        GameObject CreatePlayer(GameObject at);
-        GameObject CreateChunkSpawner();
-        void CreateHud();
         void Cleanup();
+        
+        GameObject CreateChunkSpawner();
+        GameObject CreateHud();
+        GameObject CreatePLayer(GameObject at);
+        void ConstructGameplay();
     }
 }
