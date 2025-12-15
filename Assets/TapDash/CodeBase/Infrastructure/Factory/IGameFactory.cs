@@ -15,5 +15,6 @@ namespace TapDash.CodeBase.Infrastructure.Factory
         GameObject CreateHud();
         GameObject CreatePLayer(GameObject at);
         void ConstructGameplay();
+        void ResetPlayer();
     }
 }

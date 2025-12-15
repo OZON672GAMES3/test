@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TapDash.CodeBase.Level
 {
-    public class SimpleChunkSpawner : MonoBehaviour
+    public class GameChunkSpawner : MonoBehaviour, IChunkSpawner
     {
         [SerializeField] private List<Chunk> _chunks;
         
@@ -13,7 +13,7 @@ namespace TapDash.CodeBase.Level
         private PlayerMove _player;
 
         private List<Chunk> _spawnedChunks = new();
-
+        
         public void Construct(PlayerMove player)
         {
             _player = player;
@@ -34,11 +34,11 @@ namespace TapDash.CodeBase.Level
             _lastChunk = null;
             SpawnChunk(_index);
         }
-
+        
         public void SpawnChunk(int index)
         {
             _index = index;
-            Chunk newChunk = Instantiate(_chunks[_index], transform);
+            Chunk newChunk = GameObject.Instantiate(_chunks[_index], transform);
             _spawnedChunks.Add(newChunk);
             
             if (!_lastChunk)

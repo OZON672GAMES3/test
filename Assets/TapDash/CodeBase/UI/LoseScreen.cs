@@ -1,4 +1,4 @@
-using TapDash.CodeBase.Level;
+using TapDash.CodeBase.Infrastructure.Services.Restart;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,15 +9,15 @@ namespace TapDash.CodeBase.UI
         [SerializeField] private Image _losePanel;
         [SerializeField] private Button _restartButton;
         
-        private SimpleChunkSpawner _chunkSpawner;
+        private ILevelRestartService _levelRestart;
 
-        public void Construct(SimpleChunkSpawner chunkSpawner)
+        public void Construct(ILevelRestartService levelRestart)
         {
-            _chunkSpawner = chunkSpawner;
+            _levelRestart = levelRestart;
             
             _restartButton.onClick.AddListener(() =>
             {
-                _chunkSpawner.Restart();
+                _levelRestart.Restart();
                 _losePanel.gameObject.SetActive(false);
             });
         }
