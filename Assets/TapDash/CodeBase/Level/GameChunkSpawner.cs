@@ -8,37 +8,27 @@ namespace TapDash.CodeBase.Level
     {
         [SerializeField] private List<Chunk> _chunks;
         
-        private Transform _lastChunk;
+        private IChunkSpawner _chunkSpawner;
+        private PlayerMoveOld _player;
         private int _index;
-        private PlayerMove _player;
-
-        private List<Chunk> _spawnedChunks = new();
+        private Transform _lastChunk;
         
-        public void Construct(PlayerMove player)
+        private List<Chunk> _spawnedChunks = new();
+
+        public void Construct(PlayerMoveOld player)
         {
             _player = player;
         }
-
+        
         private void Update()
         {
-            if (_lastChunk && _player.transform.position.z > _lastChunk.transform.position.z - 15)
-                SpawnChunk(_index);
+            Tick();
         }
 
-        public void Restart()
-        {
-            foreach (Chunk chunk in _spawnedChunks)
-                Destroy(chunk.gameObject);
-            
-            _spawnedChunks.Clear();
-            _lastChunk = null;
-            SpawnChunk(_index);
-        }
-        
         public void SpawnChunk(int index)
         {
             _index = index;
-            Chunk newChunk = GameObject.Instantiate(_chunks[_index], transform);
+            Chunk newChunk = Instantiate(_chunks[_index], transform);
             _spawnedChunks.Add(newChunk);
             
             if (!_lastChunk)
@@ -56,6 +46,24 @@ namespace TapDash.CodeBase.Level
                 _index = 0;
             else
                 _index++;
+
+            Debug.Log($"Spawned chunk {_chunks[_index].name}");
+        }
+
+        public void Clear()
+        {
+            foreach (Chunk chunk in _spawnedChunks)
+                Destroy(chunk.gameObject);
+            
+            _spawnedChunks.Clear();
+            _lastChunk = null;
+            SpawnChunk(_index);
+        }
+        
+        public void Tick()
+        {
+            if (_lastChunk && _player.transform.position.z > _lastChunk.position.z - 15)
+                SpawnChunk(_index);
         }
     }
 }

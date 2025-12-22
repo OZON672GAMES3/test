@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.InputSystem;
 
-namespace TapDash.CodeBase.Services.Input
+namespace TapDash.CodeBase.Infrastructure.Services.Input
 {
     public class InputService : IInputService, IDisposable
     {

@@ -46,6 +46,11 @@ namespace TapDash.CodeBase.UI
             }
         }
 
+        public void ShowLevelSelector()
+        {
+            ShowPanel(_levelsPanel);
+        }
+
         public void CloseLevelsPanelOnStart()
         {
             foreach (CanvasGroup group in _panels)

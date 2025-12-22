@@ -14,7 +14,7 @@ namespace TapDash.CodeBase.Infrastructure.Factory
         GameObject CreateChunkSpawner();
         GameObject CreateHud();
         GameObject CreatePLayer(GameObject at);
-        void ConstructGameplay();
         void ResetPlayer();
+        void ResetPlayerFromLevelSelector();
     }
 }

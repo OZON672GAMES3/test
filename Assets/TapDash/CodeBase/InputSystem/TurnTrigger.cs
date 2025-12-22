@@ -8,7 +8,7 @@ namespace TapDash.CodeBase.InputSystem
         [SerializeField] private TurnDirection _turnDirection;
         public TurnDirection TurnDirection => _turnDirection;
         
-        private PlayerMove _player;
+        private PlayerMoveOld _player;
         private Collider _collider;
         
         private void Start()
@@ -17,6 +17,11 @@ namespace TapDash.CodeBase.InputSystem
         }
 
         private void Update()
+        {
+            // Turn();
+        }
+
+        private void Turn()
         {
             if (_player == null)
                 return;
@@ -34,13 +39,13 @@ namespace TapDash.CodeBase.InputSystem
                 _player.Turn(_turnDirection);
                 _player.ClearTurnZone();
                 _player = null;
-                print($"Player turned {_turnDirection}");
+                print($"Player turned in {_turnDirection}");
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out PlayerMove player))
+            if (other.TryGetComponent(out PlayerMoveOld player))
             {
                 _player = player;
                 player.SetTurnZone(this);
@@ -50,7 +55,7 @@ namespace TapDash.CodeBase.InputSystem
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out PlayerMove player))
+            if (other.TryGetComponent(out PlayerMoveOld player))
                 player.ClearTurnZone();
         }
     }

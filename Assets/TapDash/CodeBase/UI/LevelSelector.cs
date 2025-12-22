@@ -1,7 +1,6 @@
 using TapDash.CodeBase.Level;
 using TapDash.CodeBase.Player;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace TapDash.CodeBase.UI
@@ -10,11 +9,11 @@ namespace TapDash.CodeBase.UI
     {
         private IChunkSpawner  _chunkSpawner;
         [SerializeField] private MenuSelector _menuSelector;
-        [SerializeField] private PlayerMove _player;
+        [SerializeField] private PlayerMoveOld _player;
         
         private Button[] _levelIndexButton;
 
-        public void Construct(IChunkSpawner chunkSpawner, PlayerMove player, MenuSelector menuSelector)
+        public void Construct(IChunkSpawner chunkSpawner, PlayerMoveOld player, MenuSelector menuSelector)
         {
             _chunkSpawner = chunkSpawner;
             _player = player;
@@ -30,13 +29,9 @@ namespace TapDash.CodeBase.UI
                     _chunkSpawner.SpawnChunk(index);
                     _menuSelector.CloseLevelsPanelOnStart();
                     _player.gameObject.SetActive(true);
+                    _player.SetPlayerAlive();
                 });
             }
-        }
-        
-        private void Start()
-        {
-           
         }
     }
 }

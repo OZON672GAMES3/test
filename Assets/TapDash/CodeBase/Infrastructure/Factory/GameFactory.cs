@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using TapDash.CodeBase.Infrastructure.AssetManagement;
 using TapDash.CodeBase.Infrastructure.Services.PersistentProgress;
-using TapDash.CodeBase.Infrastructure.Services.Restart;
-using TapDash.CodeBase.Level;
 using TapDash.CodeBase.Player;
-using TapDash.CodeBase.UI;
 using UnityEngine;
 
 namespace TapDash.CodeBase.Infrastructure.Factory
@@ -12,50 +9,42 @@ namespace TapDash.CodeBase.Infrastructure.Factory
     public class GameFactory : IGameFactory
     {
         private readonly IAssets _assets;
-        private readonly ILevelRestartService _levelRestart;
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new();
         public List<ISavedProgress> ProgressWriters { get; } = new();
 
         private GameObject _playerGameObject;
-        private GameObject _spawnerGameObject;
-        private GameObject _hudGameObject;
 
-        public GameFactory(IAssets assets, ILevelRestartService levelRestart)
+        public GameFactory(IAssets assets)
         {
             _assets = assets;
-            _levelRestart = levelRestart;
-        }
-
-        public void ConstructGameplay()
-        {
-            _playerGameObject.GetComponent<PlayerMove>().Construct(
-                _hudGameObject.GetComponentInChildren<LoseScreen>());
-            _playerGameObject.SetActive(false);
-            
-            _hudGameObject.GetComponentInChildren<LevelSelector>().Construct(
-                _spawnerGameObject.GetComponent<GameChunkSpawner>(),
-                _playerGameObject.GetComponent<PlayerMove>(), 
-                _hudGameObject.GetComponentInChildren<MenuSelector>());
-            _hudGameObject.GetComponentInChildren<LoseScreen>()
-                .Construct(_levelRestart);
-
-            _spawnerGameObject.GetComponent<GameChunkSpawner>().Construct(
-                _playerGameObject.GetComponent<PlayerMove>());
         }
 
         public void ResetPlayer()
         {
-            _playerGameObject.transform.position = Vector3.zero;
+            CharacterController characterController = _playerGameObject.GetComponent<CharacterController>();
+            characterController.enabled = false;
+            _playerGameObject.transform.position = new Vector3(0, 1, 0);
+            characterController.enabled = true;
+            _playerGameObject.GetComponent<PlayerMoveOld>().SetPlayerAlive();
+        }
+
+        public void ResetPlayerFromLevelSelector()
+        {
+            CharacterController characterController = _playerGameObject.GetComponent<CharacterController>();
+            characterController.enabled = false;
+            _playerGameObject.transform.position = new Vector3(0, 1, 0);
+            characterController.enabled = true;
+            _playerGameObject.SetActive(false);
         }
 
         public GameObject CreatePLayer(GameObject at) =>
             _playerGameObject = InstantiateRegistered(AssetPath.PlayerPath, at.transform.position);
 
-        public GameObject CreateHud() => _hudGameObject = InstantiateRegistered(AssetPath.HudPath);
+        public GameObject CreateHud() => InstantiateRegistered(AssetPath.HudPath);
 
         public GameObject CreateChunkSpawner() =>
-            _spawnerGameObject = InstantiateRegistered(AssetPath.ChunkSpawnerPath);
+            InstantiateRegistered(AssetPath.ChunkSpawnerPath);
 
         public void Cleanup()
         {

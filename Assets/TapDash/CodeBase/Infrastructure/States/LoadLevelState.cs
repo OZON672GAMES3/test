@@ -3,7 +3,6 @@ using TapDash.CodeBase.Infrastructure.Factory;
 using TapDash.CodeBase.Infrastructure.Services.PersistentProgress;
 using TapDash.CodeBase.Logic;
 using TapDash.CodeBase.Player;
-using TapDash.CodeBase.Services.Input;
 using UnityEngine;
 
 namespace TapDash.CodeBase.Infrastructure.States
@@ -17,18 +16,21 @@ namespace TapDash.CodeBase.Infrastructure.States
         private readonly LoadingCurtain _curtain;
         private readonly IGameFactory _gameFactory;
         private readonly IPersistentProgressService _progressService;
+        private readonly IGameplayInstaller _gameplayInstaller;
 
         public LoadLevelState(GameStateMachine stateMachine,
             SceneLoader sceneLoader,
             LoadingCurtain curtain,
-            IGameFactory gameFactory, 
-            IPersistentProgressService progressService)
+            IGameFactory gameFactory,
+            IPersistentProgressService progressService,
+            IGameplayInstaller gameplayInstaller)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
             _gameFactory = gameFactory;
             _progressService = progressService;
+            _gameplayInstaller = gameplayInstaller;
         }
 
         public void Enter(string sceneName)
@@ -45,7 +47,7 @@ namespace TapDash.CodeBase.Infrastructure.States
 
         private void OnLoaded()
         {
-            InitGameWorld();
+            _gameplayInstaller.Install();
             InformProgressReaders();
 
             _stateMachine.Enter<GameLoopState>();
@@ -56,19 +58,5 @@ namespace TapDash.CodeBase.Infrastructure.States
             foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)
                 progressReader.LoadProgress(_progressService.Progress);
         }
-        
-        private void InitGameWorld()
-        {
-            GameObject player = _gameFactory.CreatePLayer(GameObject.FindWithTag(InitialPoint));
-            CameraFollow(player);
-            GroundFollow(player);
-            _gameFactory.CreateChunkSpawner();
-            _gameFactory.CreateHud();
-            _gameFactory.ConstructGameplay();
-        }
-
-        private static void CameraFollow(GameObject target) => Camera.main.GetComponent<CameraFollow>().Follow(target);
-
-        private static void GroundFollow(GameObject target) => GameObject.FindObjectOfType<GroundFollow>().Follow(target);
     }
 }

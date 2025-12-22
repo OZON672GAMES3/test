@@ -1,7 +1,6 @@
 using System;
-using TapDash.CodeBase.Infrastructure.Services;
 
-namespace TapDash.CodeBase.Services.Input
+namespace TapDash.CodeBase.Infrastructure.Services.Input
 {
     public interface IInputService : IService
     {

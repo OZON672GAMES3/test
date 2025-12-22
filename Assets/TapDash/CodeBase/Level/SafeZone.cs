@@ -11,7 +11,7 @@ namespace TapDash.CodeBase.Level
         
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out PlayerMove player))
+            if (other.TryGetComponent(out PlayerMoveOld player))
             {
                 player.AlignTo(transform.position);
                 OnComplete?.Invoke();

@@ -1,11 +1,11 @@
 using TapDash.CodeBase.Infrastructure.AssetManagement;
 using TapDash.CodeBase.Infrastructure.Factory;
 using TapDash.CodeBase.Infrastructure.Services;
+using TapDash.CodeBase.Infrastructure.Services.Input;
+using TapDash.CodeBase.Infrastructure.Services.LevelRestart;
 using TapDash.CodeBase.Infrastructure.Services.PersistentProgress;
-using TapDash.CodeBase.Infrastructure.Services.Restart;
 using TapDash.CodeBase.Infrastructure.Services.SaveLoad;
 using TapDash.CodeBase.Level;
-using TapDash.CodeBase.Services.Input;
 using UnityEngine;
 
 namespace TapDash.CodeBase.Infrastructure.States
@@ -43,13 +43,17 @@ namespace TapDash.CodeBase.Infrastructure.States
             _services.RegisterSingle<IInputService>(new InputService());
             _services.RegisterSingle<IAssets>(new AssetProvider());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
-            _services.RegisterSingle<IChunkSpawner>(new ChunkSpawner());
-            _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(),
+
+            _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>()));
+
+            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(
+                _services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
+
+            _services.RegisterSingle<ILevelRestartService>(new LevelRestartService(
+                _services.Single<IGameFactory>()));
+            
+            _services.RegisterSingle<IGameplayInstaller>(new GameplayInstaller(_services.Single<IGameFactory>(),
                 _services.Single<ILevelRestartService>()));
-            _services.RegisterSingle<ISaveLoadService>(
-                new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
-            _services.RegisterSingle<ILevelRestartService>(new LevelRestartService(_services.Single<IGameFactory>(),
-                _services.Single<IChunkSpawner>()));
         }
     }
 }
