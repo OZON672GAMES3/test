@@ -10,5 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da84d074cd4c42ef85f0b0b93d83398a, type: 3}
-  m_Name: LevelConfig
+  m_Name: LevelConfig 1
   m_EditorClassIdentifier: 
+  Chunk: {fileID: 5139029108759530346, guid: aa4ed7d54058bb24192ac53248016601, type: 3}
+  ChunkIndex: 0
+  PlayerSpeed: 0
+  IsCameraRotatable: 0

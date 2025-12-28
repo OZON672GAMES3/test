@@ -17,13 +17,12 @@ namespace TapDash.CodeBase.UI
         [SerializeField] private Button _optionsButton;
         [SerializeField] private Button _backLevel;
         [SerializeField] private Button _backOptions;
-        
-        private UITransitionAnimator _animator;
+
+        private readonly UITransitionAnimator _animator = new();
         private CanvasGroup[] _panels;
 
         private void Awake()
         {
-            _animator = new UITransitionAnimator();
             _panels = new[] { _menuPanel, _optionsPanel, _levelsPanel };
         }
 

@@ -1,37 +1,40 @@
-using TapDash.CodeBase.Level;
-using TapDash.CodeBase.Player;
+using System.Collections.Generic;
+using TapDash.CodeBase.Infrastructure;
+using TapDash.CodeBase.Infrastructure.Services.PersistentProgress;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace TapDash.CodeBase.UI
 {
     public class LevelSelector : MonoBehaviour
     {
-        private IChunkSpawner  _chunkSpawner;
-        [SerializeField] private MenuSelector _menuSelector;
-        [SerializeField] private PlayerMoveOld _player;
+        private const int ChunksCount = 12;
+
+        [SerializeField] private Transform _parent;
+        [SerializeField] private SelectorButton _buttonPrefab;
         
-        private Button[] _levelIndexButton;
+        private readonly List<SelectorButton> _buttons = new();
 
-        public void Construct(IChunkSpawner chunkSpawner, PlayerMoveOld player, MenuSelector menuSelector)
+        private LevelStartService _levelStart;
+        private IPersistentProgressService _progressService;
+
+        public void Construct(LevelStartService levelStart, IPersistentProgressService progressService)
         {
-            _chunkSpawner = chunkSpawner;
-            _player = player;
-            _menuSelector = menuSelector;
+            _levelStart = levelStart;
+            _progressService = progressService;
             
-            _levelIndexButton = GetComponentsInChildren<Button>();
-
-            for (int i = 0; i < _levelIndexButton.Length; i++)
+            for (int i = 0; i < ChunksCount; i++)
             {
+                SelectorButton button = Instantiate(_buttonPrefab, _parent);
+                _buttons.Add(button);
+
                 int index = i;
-                _levelIndexButton[i].onClick.AddListener(() =>
-                {
-                    _chunkSpawner.SpawnChunk(index);
-                    _menuSelector.CloseLevelsPanelOnStart();
-                    _player.gameObject.SetActive(true);
-                    _player.SetPlayerAlive();
-                });
+                button.Initialize(index, () => _levelStart.StartGame(index));
             }
+
+            int unlockedCount = _progressService.Progress.LastCompletedChunkIndex;
+
+            for (int i = 0; i < unlockedCount && i < _buttons.Count; i++)
+                _buttons[i].SetUnlocked(true);
         }
     }
 }

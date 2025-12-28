@@ -18,7 +18,7 @@ namespace TapDash.CodeBase.InputSystem
 
         private void Update()
         {
-            // Turn();
+            Turn();
         }
 
         private void Turn()
@@ -39,7 +39,7 @@ namespace TapDash.CodeBase.InputSystem
                 _player.Turn(_turnDirection);
                 _player.ClearTurnZone();
                 _player = null;
-                print($"Player turned in {_turnDirection}");
+                // print($"Player turned in {_turnDirection}");
             }
         }
 
@@ -49,7 +49,7 @@ namespace TapDash.CodeBase.InputSystem
             {
                 _player = player;
                 player.SetTurnZone(this);
-                print($"Entered turn zone: {_turnDirection}");
+                // print($"Entered turn zone: {_turnDirection}");
             }
         }
 

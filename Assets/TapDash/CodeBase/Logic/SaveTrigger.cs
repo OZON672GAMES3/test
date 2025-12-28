@@ -6,7 +6,7 @@ namespace TapDash.CodeBase.Logic
 {
     public class SaveTrigger : MonoBehaviour
     {
-        public BoxCollider Collider;
+        public CapsuleCollider Collider;
         
         private ISaveLoadService _saveLoadService;
 
@@ -27,7 +27,7 @@ namespace TapDash.CodeBase.Logic
                 return;
             
             Gizmos.color = new Color(30, 200, 30, 130);
-            Gizmos.DrawCube(transform.position + Collider.center, Collider.size);
+            Gizmos.DrawSphere(Collider.center, Collider.radius);
         }
     }
 }

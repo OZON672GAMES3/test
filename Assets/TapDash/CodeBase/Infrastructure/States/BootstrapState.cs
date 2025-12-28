@@ -51,9 +51,9 @@ namespace TapDash.CodeBase.Infrastructure.States
 
             _services.RegisterSingle<ILevelRestartService>(new LevelRestartService(
                 _services.Single<IGameFactory>()));
-            
+
             _services.RegisterSingle<IGameplayInstaller>(new GameplayInstaller(_services.Single<IGameFactory>(),
-                _services.Single<ILevelRestartService>()));
+                _services.Single<ILevelRestartService>(), _services.Single<IPersistentProgressService>()));
         }
     }
 }

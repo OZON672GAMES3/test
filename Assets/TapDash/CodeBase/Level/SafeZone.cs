@@ -1,5 +1,4 @@
 using System;
-using TapDash.CodeBase.InputSystem;
 using TapDash.CodeBase.Player;
 using UnityEngine;
 
@@ -7,15 +6,19 @@ namespace TapDash.CodeBase.Level
 {
     public class SafeZone : MonoBehaviour
     {
-        public event Action OnComplete;
+        public event Action<int> OnComplete;
         
+        private int _chunkIndex;
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out PlayerMoveOld player))
-            {
-                player.AlignTo(transform.position);
-                OnComplete?.Invoke();
-            }
+                OnComplete?.Invoke(_chunkIndex);
+        }
+
+        public void GetChunkIndex(int chunkIndex)
+        {
+            _chunkIndex = chunkIndex;
         }
     }
 }

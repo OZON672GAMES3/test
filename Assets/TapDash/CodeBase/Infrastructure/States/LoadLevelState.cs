@@ -1,16 +1,14 @@
-using TapDash.CodeBase.CameraLogic;
 using TapDash.CodeBase.Infrastructure.Factory;
 using TapDash.CodeBase.Infrastructure.Services.PersistentProgress;
 using TapDash.CodeBase.Logic;
-using TapDash.CodeBase.Player;
-using UnityEngine;
 
 namespace TapDash.CodeBase.Infrastructure.States
 {
-    public class LoadLevelState : IPayloadedState<string>
+    public class LoadLevelState : IState
     {
         private const string InitialPoint = "InitialPoint";
-        
+        private const string SceneName = "Main";
+
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
@@ -33,11 +31,11 @@ namespace TapDash.CodeBase.Infrastructure.States
             _gameplayInstaller = gameplayInstaller;
         }
 
-        public void Enter(string sceneName)
+        public void Enter()
         {
             _curtain.Show();
             _gameFactory.Cleanup();
-            _sceneLoader.Load(sceneName, OnLoaded);
+            _sceneLoader.Load(SceneName, OnLoaded);
         }
 
         public void Exit()

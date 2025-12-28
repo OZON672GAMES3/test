@@ -1,22 +1,29 @@
 using System.Collections.Generic;
+using TapDash.CodeBase.Data;
+using TapDash.CodeBase.Infrastructure.Services.PersistentProgress;
 using TapDash.CodeBase.Player;
 using UnityEngine;
 
 namespace TapDash.CodeBase.Level
 {
-    public class GameChunkSpawner : MonoBehaviour, IChunkSpawner
+    public class GameChunkSpawner : MonoBehaviour, IChunkSpawner, ISavedProgress
     {
-        [SerializeField] private List<Chunk> _chunks;
-        
-        private IChunkSpawner _chunkSpawner;
+        public List<LevelConfig> Chunks;
+        public float SpawnAheadDistance = 15;
+        public int PoolInitialSize = 5;
+
         private PlayerMoveOld _player;
         private int _index;
-        private Transform _lastChunk;
-        
+        private Chunk _lastChunk;
+        private ChunkPool<Chunk> _pool;
+
         private List<Chunk> _spawnedChunks = new();
+        private float _spawnZ;
+        private int _lastCompletedChunkIndex;
 
         public void Construct(PlayerMoveOld player)
         {
+            // _pool = new ChunkPool<Chunk>(Chunks[1].Chunk, PoolInitialSize, gameObject.transform);
             _player = player;
         }
         
@@ -28,26 +35,29 @@ namespace TapDash.CodeBase.Level
         public void SpawnChunk(int index)
         {
             _index = index;
-            Chunk newChunk = Instantiate(_chunks[_index], transform);
-            _spawnedChunks.Add(newChunk);
-            
-            if (!_lastChunk)
-                newChunk.transform.position = Vector3.zero;
-            else
-            {
-                Transform startPoint = newChunk.StartPoint;
-                Vector3 offset = _lastChunk.position - startPoint.position;
-                newChunk.transform.position += offset;
-            }
-            
-            _lastChunk = newChunk.EndPoint;
-            
-            if (_index >= _chunks.Count -1)
-                _index = 0;
-            else
-                _index++;
+            LevelConfig config = Chunks[_index];
+            Chunk chunk = Instantiate(config.Chunk, transform);
+            _spawnedChunks.Add(chunk);
 
-            Debug.Log($"Spawned chunk {_chunks[_index].name}");
+            chunk.transform.position = new Vector3(0, 0, _spawnZ);
+            _spawnZ += chunk.GetChunkLengthZ() - 2;
+
+            int spawnedChunkIndex = index;
+            chunk.SafeZone.GetChunkIndex(spawnedChunkIndex);
+            chunk.SafeZone.OnComplete += OnChunkPassed;
+            
+            _lastChunk = chunk;
+            _index = (_index + 1) % Chunks.Count;
+
+            Debug.Log($"Spawned chunk {Chunks[_index].name}");
+        }
+
+        private void OnChunkPassed(int chunkIndex)
+        {
+            if (chunkIndex <= _lastCompletedChunkIndex)
+                return;
+            
+            _lastCompletedChunkIndex = chunkIndex;
         }
 
         public void Clear()
@@ -57,13 +67,21 @@ namespace TapDash.CodeBase.Level
             
             _spawnedChunks.Clear();
             _lastChunk = null;
-            SpawnChunk(_index);
         }
-        
+
         public void Tick()
         {
-            if (_lastChunk && _player.transform.position.z > _lastChunk.position.z - 15)
+            if (_player.transform.position.z + SpawnAheadDistance >= _spawnZ && _lastChunk != null)
                 SpawnChunk(_index);
+        }
+
+        public void LoadProgress(PlayerProgress progress)
+        {
+        }
+
+        public void UpdateProgress(PlayerProgress progress)
+        {
+            progress.LastCompletedChunkIndex = _lastCompletedChunkIndex;
         }
     }
 }

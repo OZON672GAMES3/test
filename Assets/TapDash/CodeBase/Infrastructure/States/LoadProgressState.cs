@@ -21,7 +21,7 @@ namespace TapDash.CodeBase.Infrastructure.States
         {
             LoadProgressOrInitNew();
             
-            _gameStateMachine.Enter<LoadLevelState, string>(_progressService.Progress.LevelName);
+            _gameStateMachine.Enter<LoadLevelState>();
         }
 
         public void Exit()
@@ -31,6 +31,6 @@ namespace TapDash.CodeBase.Infrastructure.States
         private void LoadProgressOrInitNew() =>
             _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
 
-        private PlayerProgress NewProgress() => new("Main");
+        private PlayerProgress NewProgress() => new();
     }
 }

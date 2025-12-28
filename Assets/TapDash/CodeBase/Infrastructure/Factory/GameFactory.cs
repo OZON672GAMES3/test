@@ -31,11 +31,11 @@ namespace TapDash.CodeBase.Infrastructure.Factory
 
         public void ResetPlayerFromLevelSelector()
         {
+            _playerGameObject.SetActive(false);
             CharacterController characterController = _playerGameObject.GetComponent<CharacterController>();
             characterController.enabled = false;
             _playerGameObject.transform.position = new Vector3(0, 1, 0);
             characterController.enabled = true;
-            _playerGameObject.SetActive(false);
         }
 
         public GameObject CreatePLayer(GameObject at) =>

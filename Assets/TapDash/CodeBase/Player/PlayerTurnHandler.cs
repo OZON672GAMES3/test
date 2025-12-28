@@ -8,15 +8,9 @@ namespace TapDash.CodeBase.Player
         private TurnTrigger _currentTurnZone;
         private readonly PlayerMove _playerMove;
 
-        public PlayerTurnHandler(PlayerMove playerMove)
-        {
-            _playerMove = playerMove;
-        }
+        public PlayerTurnHandler(PlayerMove playerMove) => _playerMove = playerMove;
 
-        public void SetTurnZone(TurnTrigger zone)
-        {
-            _currentTurnZone = zone;
-        }
+        public void SetTurnZone(TurnTrigger zone) => _currentTurnZone = zone;
 
         public void ClearTurnZone()
         {

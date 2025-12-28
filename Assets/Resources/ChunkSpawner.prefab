@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdbbe009ec804166aa4fccdadc3461cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chunks:
-  - {fileID: 5139029108759530346, guid: aa4ed7d54058bb24192ac53248016601, type: 3}
-  - {fileID: 9017226491431117404, guid: 49b19a19a2a3d6f428ce70365b6e97e2, type: 3}
-  - {fileID: 6508160889239901031, guid: dcfd7b690fe3c2c4a88ad6683608b9e5, type: 3}
+  Chunks:
+  - {fileID: 11400000, guid: e58b726c389493f40b772b55f0acd1f1, type: 2}
+  - {fileID: 11400000, guid: 4ddd42f5fa2bef240899e448c0793479, type: 2}
+  - {fileID: 11400000, guid: ea14e383e78c293409feb841eb9201f5, type: 2}

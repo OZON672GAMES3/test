@@ -1,6 +1,7 @@
 using TapDash.CodeBase.CameraLogic;
 using TapDash.CodeBase.Infrastructure.Factory;
 using TapDash.CodeBase.Infrastructure.Services.LevelRestart;
+using TapDash.CodeBase.Infrastructure.Services.PersistentProgress;
 using TapDash.CodeBase.Level;
 using TapDash.CodeBase.Player;
 using TapDash.CodeBase.UI;
@@ -14,11 +15,13 @@ namespace TapDash.CodeBase.Infrastructure
 
         private readonly IGameFactory _gameFactory;
         private readonly ILevelRestartService _levelRestart;
+        private readonly IPersistentProgressService _progressService;
 
-        public GameplayInstaller(IGameFactory gameFactory, ILevelRestartService levelRestart)
+        public GameplayInstaller(IGameFactory gameFactory, ILevelRestartService levelRestart, IPersistentProgressService progressService)
         {
             _gameFactory = gameFactory;
             _levelRestart = levelRestart;
+            _progressService = progressService;
         }
 
         public void Install()
@@ -32,10 +35,12 @@ namespace TapDash.CodeBase.Infrastructure
             LevelSelector levelSelector = hud.GetComponentInChildren<LevelSelector>();
             MenuSelector menuSelector = hud.GetComponentInChildren<MenuSelector>();
             GameChunkSpawner chunkSpawner = spawner.GetComponent<GameChunkSpawner>();
-            
+            LevelStartService levelStartService = hud.GetComponentInChildren<LevelStartService>();
+
+            levelStartService.Construct(chunkSpawner, menuSelector, playerMoveOld);
             playerMoveOld.Construct(loseScreen);
             loseScreen.Construct(_levelRestart, menuSelector);
-            levelSelector.Construct(chunkSpawner, playerMoveOld, menuSelector);
+            levelSelector.Construct(levelStartService, _progressService);
             chunkSpawner.Construct(playerMoveOld);
             
             _levelRestart.RegisterChunkSpawner(chunkSpawner);
